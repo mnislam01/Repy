@@ -1,0 +1,40 @@
+
+def clean_directory():
+  files = ["a_test_file.txt.a", "a_test_file.txt.b"]
+
+  for file in files:
+    if file in listfiles():
+      removefile(file)
+
+
+def ab_file_test(file_name, data, create=True):
+  if create:
+    myfile=ABopenfile(file_name, create)
+
+    myfile.writeat(data,0)                   # write data
+    myfile.close()
+
+    myfile=ABopenfile(file_name, False)      # verify data written successfully
+    assert(data == myfile.readat(None,0))
+    myfile.close()
+
+  else:
+    myfile=ABopenfile(file_name, create)
+    
+    assert("S This is a test string E" == myfile.readat(None,0))    # verify old data is there
+
+    myfile.writeat(data,0)                                        # write new data
+    myfile.close()
+    myfile=ABopenfile(file_name, False)
+    
+    assert(data == myfile.readat(None,0))                         # verify new data written successfully
+    myfile.close()
+
+
+def main():
+  clean_directory()
+  ab_file_test(file_name="a_test_file.txt", data="S This is a test string E")   # test create file
+  ab_file_test(file_name="a_test_file.txt", data="S Another string E", create=False)  # test update file
+
+
+main()
