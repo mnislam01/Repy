@@ -114,11 +114,11 @@ class ABFile():
 
   def close(self):
     """
-		Check if file contents starts with 'S' and ends with 'E'. Update 
-		the original file with the new data IF the new data is valid.
+		Check if file content starts with 'S' and ends with 'E'. Update 
+		the original file with the new data if the new data is valid.
 		"""
 
-    filecount = 0    
+    file_counter = 0    
     backup = self.Afile.readat(None,0)
     data = self.Bfile.readat(None,0)
     backup_file_name = self.Afn
@@ -133,10 +133,10 @@ class ABFile():
 
       for file in listfiles():
         if file.startswith(backup_file_name):
-          filecount += 1
+          file_counter += 1
 
-      if filecount > 0 and backup != data:
-        storeold = backup_file_name+".old"+str(filecount)
+      if file_counter > 0 and backup != data:
+        storeold = backup_file_name+".old"+str(file_counter)
         openfile(storeold,True).writeat(backup,0)
 
     else:
