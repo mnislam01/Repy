@@ -1,6 +1,6 @@
 
 def clean_directory():
-  files = ["a_test_file.txt.a", "a_test_file.txt.b"]
+  files = ["a_test_file.txt.a", "a_test_file.txt.b", "a_test_file.txt.a.old1", ""a_test_file.txt.a.old2""]
 
   for file in files:
     if file in listfiles():
