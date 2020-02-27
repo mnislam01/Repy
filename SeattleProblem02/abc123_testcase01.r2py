@@ -1,0 +1,17 @@
+FILE_NAME = "filename.txt"
+
+def clean_directory():
+
+  for file in listfiles():
+    if FILE_NAME in file:
+      removefile(file)
+
+clean_directory()
+
+abFile=ABopenfile(FILE_NAME, True)
+
+try:
+  assert abFile.readat(None, 0) == "SE"
+except:
+  log("BUG! File doesn't contain 'SE'.")
+  abFile.close()

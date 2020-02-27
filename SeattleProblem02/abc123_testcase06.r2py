@@ -1,0 +1,19 @@
+FILE_NAME = "filename.txt"
+
+def clean_directory():
+
+  for file in listfiles():
+    if FILE_NAME in file:
+      removefile(file)
+
+clean_directory()
+
+
+myfile=ABopenfile(FILE_NAME,True)
+myfile.writeat("SdataE",0)
+myfile.close()
+
+try:
+  myfile=ABopenfile(FILE_NAME,True)
+except:
+  log("BUG! close() doesn't close the file")

@@ -1,0 +1,20 @@
+FILE_NAME = "filename.txt"
+
+def clean_directory():
+
+  for file in listfiles():
+    if FILE_NAME in file:
+      removefile(file)
+
+clean_directory()
+
+myfile=ABopenfile(FILE_NAME,True)
+myfile.writeat("",0)
+myfile.close()
+
+try:
+  myfile=ABopenfile(FILE_NAME,True)
+  assert myfile.readat(None,0) == "SE"
+  myfile.close()
+except:
+  log("Bug! Reference monitor allows writing data without 'S' and 'E' at the begenning and end")
