@@ -69,7 +69,7 @@ class ABFile():
     # when creating a new file
     if create:
 			self.Bfile = openfile(self.Bfn,create)  # see references
-			
+
 			if self.Afn in listfiles():					    # If 'a' file is available
 				self.Afile = openfile(self.Afn,False)	# Open the 'a' file
 
@@ -81,7 +81,8 @@ class ABFile():
     else:
 			self.Bfile = openfile(self.Bfn, True)			# create and open the 'b' file
 			self.Afile = openfile(self.Afn, False)		# open the 'a' file as it is already present
-      
+			self.Bfile.writeat(self.Afile.readat(None,0),0)
+
     mycontext['Lock']= createlock()						# see references
 
   def writeat(self,data,offset):

@@ -43,7 +43,9 @@ OTHERS
 Note:
     This security layer uses encasementlib.r2py, restrictions.default, repy.py and Python
     Also you need to give it an application to run.
-    python repy.py restrictions.default encasementlib.r2py [security_layer].r2py [attack_program].r2py 
+    1. python repy.py restrictions.default encasementlib.r2py reference_monitor_sh5827.r2py attack_file.r2py
+    2. python repy.py restrictions.default encasementlib.r2py extra_credit_sh5827.r2py attach_file.r2p
+
 
 
 """
@@ -69,7 +71,7 @@ class ABFile():
     # when creating a new file
     if create:
 			self.Bfile = openfile(self.Bfn,create)  # see references
-			
+
 			if self.Afn in listfiles():					    # If 'a' file is available
 				self.Afile = openfile(self.Afn,False)	# Open the 'a' file
 
@@ -81,7 +83,8 @@ class ABFile():
     else:
 			self.Bfile = openfile(self.Bfn, True)			# create and open the 'b' file
 			self.Afile = openfile(self.Afn, False)		# open the 'a' file as it is already present
-      
+			self.Bfile.writeat(self.Afile.readat(None,0),0)
+
     mycontext['Lock']= createlock()						# see references
 
   def writeat(self,data,offset):
@@ -114,30 +117,20 @@ class ABFile():
 
   def close(self):
     """
-		Check if file content starts with 'S' and ends with 'E'. Update 
-		the original file with the new data if the new data is valid.
+		Check if file contents starts with 'S' and ends with 'E'. Update 
+		the original file with the new data IF the new data is valid.
 		"""
-
-    file_counter = 0    
+    
     backup = self.Afile.readat(None,0)
     data = self.Bfile.readat(None,0)
     backup_file_name = self.Afn
 
     if self.Bfile.readat(None,0).startswith("S") and self.Bfile.readat(None,0).endswith("E"):
-      self.Afile.close()
-      self.Bfile.close()
-      removefile(self.Afn)
-      file = openfile(backup_file_name,True)
-      file.writeat(data,0)
-      removefile(self.Bfn)
-
-      for file in listfiles():
-        if file.startswith(backup_file_name):
-          file_counter += 1
-
-      if file_counter > 0 and backup != data:
-        storeold = backup_file_name+".old"+str(file_counter)
-        openfile(storeold,True).writeat(backup,0)
+		  self.Afile.close()
+		  self.Bfile.close()
+		  removefile(self.Afn)
+		  openfile(backup_file_name,True).writeat(data,0)
+		  removefile(self.Bfn)
 
     else:
 			self.Afile.close()
@@ -146,6 +139,7 @@ class ABFile():
 			openfile(backup_file_name,True).writeat(backup,0)
 			removefile(self.Bfn)
 
+    
 
 def ABopenfile(filename, create):
   return ABFile(filename,create)
